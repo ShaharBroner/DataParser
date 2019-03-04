@@ -25,8 +25,17 @@ public class Utils {
         String[] rows = data.split("\n");
         for (int i = 1; i < rows.length; i++) {
             String current = rows[i];
-            current = current.substring(0, current.indexOf("\"")) + current.substring(current.indexOf("\"") + 1, current.length());
+            current = current.substring(current.indexOf(",") + 1, current.length());
             current = current.substring(0, current.indexOf("%")) + current.substring(current.indexOf("%") + 1, current.length());
+            if (current.indexOf("\"") != -1) {
+                String partial = current.substring(current.indexOf("\"") + 1, current.length());
+                partial = partial.substring(0, partial.indexOf("\""));
+                while (partial.indexOf(",") != -1) {
+                    partial = partial.substring(0, partial.indexOf(",")) + partial.substring(partial.indexOf(",") + 1, partial.length());
+                }
+                current = current.substring(0, current.indexOf("\"")) + partial + current.substring(current.indexOf("\"", current.indexOf("\"") + 1) + 1, current.length());
+            }
+            System.out.println(current);
             String[] OneRowData = current.split(",");
             double votesDem = Double.parseDouble(OneRowData[0]);
             double votesGop = Double.parseDouble(OneRowData[1]);
