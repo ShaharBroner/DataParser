@@ -83,7 +83,23 @@ public class ElectionResults {
         this.countyName = countyName;
     }
 
-    public ElectionResults(double votesDem, double votesGop, double totalVotes, double perDem, double perGop, double perPointDiff, int diff, int combinedFips, String stateAbbr, String countyName) {
+    @Override
+    public String toString() {
+        return "ElectionResults{" +
+                "VotesDem=" + VotesDem +
+                ", votesGop=" + votesGop +
+                ", totalVotes=" + totalVotes +
+                ", perDem=" + perDem +
+                ", perGop=" + perGop +
+                ", diff=" + diff +
+                ", perPointDiff=" + perPointDiff +
+                ", stateAbbr='" + stateAbbr + '\'' +
+                ", countyName='" + countyName + '\'' +
+                ", combinedFips=" + combinedFips +
+                '}';
+    }
+
+    public ElectionResults(double votesDem, double votesGop, double totalVotes, double perDem, double perGop, int diff, double perPointDiff, String stateAbbr, String countyName, int combinedFips) {
 
         VotesDem = votesDem;
         this.votesGop = votesGop;
