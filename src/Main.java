@@ -8,6 +8,8 @@ public class Main {
         String data = Utils.readFileAsString("data/2016_Presidential_Results.csv");
         //System.out.println(data);
         ArrayList<ElectionResults> results = Utils.parse2016ElectionResults(data);
-        System.out.println(results.get(0).toString());
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println(results.get(i).toString());
+        }
     }
 }
