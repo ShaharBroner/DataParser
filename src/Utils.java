@@ -19,23 +19,57 @@ public class Utils {
         return output.toString();
     }
 
-//    public static ArrayList<EmploymentData> parse2016EmploymentData(String data) {
-//        ArrayList<EmploymentData> output = new ArrayList<>();
-//        String[] rows = data.split("\n");
-//        for (int i = 8; i < rows.length; i++) {
-//            String current = rows[i];
-//            EmploymentData e = new EmploymentData(0, 0, 0, 0, "", "", 0);
-//            e.setFips(Integer.parseInt(current.substring(0, current.indexOf(","))));
-//            removeExtraInfo(current);
-//            e.setStateName(current.substring(0, current.indexOf(",")));
-//            removeExtraInfo(current);
-//            while (current.indexOf("\"") != -1) {
-//                current = removeCommas(current);
-//            }
-//            e.setCountyName(current.substring(0, current.indexOf(",")));
-//            removeExtraInfo(current);
-//        }
-//    }
+    public static ArrayList<EmploymentData> parse2016EmploymentData(String data) {
+        ArrayList<EmploymentData> output = new ArrayList<>();
+        String[] rows = data.split("\n");
+        for (int i = 8; i < rows.length; i++) {
+            String current = rows[i];
+            EmploymentData e = new EmploymentData(0, 0, 0, 0, "", "", 0);
+            e.setFips(Integer.parseInt(current.substring(0, current.indexOf(","))));
+            removeExtraInfo(current);
+            e.setStateName(current.substring(0, current.indexOf(",")));
+            removeExtraInfo(current);
+            while (current.indexOf("\"") != -1) {
+                current = removeCommas(current);
+            }
+            e.setCountyName(current.substring(0, current.indexOf(",")));
+            removeExtraInfo(current);
+            String[] OneRowData = current.split(",");
+            removeExtraSpaces(OneRowData);
+            setEmploymentResultsAsObject(e, OneRowData);
+            output.add(e);
+        }
+        return output;
+    }
+
+    private static void removeExtraSpaces(String[] OneRowData) {
+        for (int i = 0; i < OneRowData.length; i++) {
+            String current = OneRowData[i];
+            if (current.indexOf(" ") != -1) {
+                while (current.substring(current.length() - 1, current.length()).equals(" ")) {
+                    current = current.substring(0, current.length() - 1);
+                }
+                while (current.indexOf(" ") != -1) {
+                    current = current.substring(current.indexOf(" ") + 2, current.length());
+                }
+            }
+            OneRowData[i] = current;
+        }
+    }
+
+    private static void setEmploymentResultsAsObject(EmploymentData e, String[] OneRowData) {
+        if (OneRowData.length == 51) {
+            e.setTotalLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 9]));
+            e.setEmployedLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 8]));
+            e.setUnemployedLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 7]));
+            e.setUnemployedPercent(Double.parseDouble(OneRowData[OneRowData.length - 6]));
+        } else {
+            e.setTotalLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 10]));
+            e.setEmployedLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 8]));
+            e.setUnemployedLaborForce(Integer.parseInt(OneRowData[OneRowData.length - 8]));
+            e.setUnemployedPercent(Double.parseDouble(OneRowData[OneRowData.length - 7]));
+        }
+    }
 
     public static ArrayList<EducationData> parse2016EducationData(String data) {
         ArrayList<EducationData> output = new ArrayList<>();
@@ -54,7 +88,6 @@ public class Utils {
             removeExtraInfo(current);
             String[] OneRowData = current.split(",");
             setEducationResultsAsObject(e, OneRowData);
-            System.out.println(e.getBachelorsOrMore());
             output.add(e);
         }
         return output;
@@ -62,7 +95,7 @@ public class Utils {
 
 
     private static void setEducationResultsAsObject(EducationData e, String[] OneRowData) {
-        if (OneRowData.length > 44) {
+        if (OneRowData.length > 46) {
             e.setNoHighSchool(Double.parseDouble(OneRowData[43]));
             e.setOnlyHighSchool(Double.parseDouble(OneRowData[44]));
             e.setSomeCollege(Double.parseDouble(OneRowData[45]));
