@@ -2,7 +2,7 @@ public class EmploymentData {
     private int totalLaborForce;
     private int employedLaborForce;
     private int unemployedLaborForce;
-    private int unemployedPercent;
+    private double unemployedPercent;
 
     public int getTotalLaborForce() {
         return totalLaborForce;
@@ -28,11 +28,11 @@ public class EmploymentData {
         this.unemployedLaborForce = unemployedLaborForce;
     }
 
-    public int getUnemployedPercent() {
+    public double getUnemployedPercent() {
         return unemployedPercent;
     }
 
-    public void setUnemployedPercent(int unemployedPercent) {
+    public void setUnemployedPercent(double unemployedPercent) {
         this.unemployedPercent = unemployedPercent;
     }
 
