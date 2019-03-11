@@ -19,10 +19,28 @@ public class Utils {
         return output.toString();
     }
 
+//    public static ArrayList<EmploymentData> parse2016EmploymentData(String data) {
+//        ArrayList<EmploymentData> output = new ArrayList<>();
+//        String[] rows = data.split("\n");
+//        for (int i = 8; i < rows.length; i++) {
+//            String current = rows[i];
+//            EmploymentData e = new EmploymentData(0, 0, 0, 0, "", "", 0);
+//            e.setFips(Integer.parseInt(current.substring(0, current.indexOf(","))));
+//            removeExtraInfo(current);
+//            e.setStateName(current.substring(0, current.indexOf(",")));
+//            removeExtraInfo(current);
+//            while (current.indexOf("\"") != -1) {
+//                current = removeCommas(current);
+//            }
+//            e.setCountyName(current.substring(0, current.indexOf(",")));
+//            removeExtraInfo(current);
+//        }
+//    }
+
     public static ArrayList<EducationData> parse2016EducationData(String data) {
         ArrayList<EducationData> output = new ArrayList<>();
         String[] rows = data.split("\n");
-        for (int i = 5; i < rows.length; i++) {
+        for (int i = 5; i < rows.length - 10; i++) {
             String current = rows[i];
             EducationData e = new EducationData(0, 0, 0, 0, "", "", 0);
             e.setFips(Integer.parseInt(current.substring(0, current.indexOf(","))));
@@ -34,21 +52,22 @@ public class Utils {
             }
             e.setCountyName(current.substring(0, current.indexOf(",")));
             removeExtraInfo(current);
-            while (current.substring(0, 1).equals(",")) {
-                current = current.substring(1, current.length());
-            }
             String[] OneRowData = current.split(",");
             setEducationResultsAsObject(e, OneRowData);
+            System.out.println(e.getBachelorsOrMore());
             output.add(e);
         }
         return output;
     }
 
+
     private static void setEducationResultsAsObject(EducationData e, String[] OneRowData) {
-        e.setNoHighSchool(Double.parseDouble(OneRowData[40]));
-        e.setOnlyHighSchool(Double.parseDouble(OneRowData[41]));
-        e.setSomeCollege(Double.parseDouble(OneRowData[42]));
-        e.setBachelorsOrMore(Double.parseDouble(OneRowData[43]));
+        if (OneRowData.length > 44) {
+            e.setNoHighSchool(Double.parseDouble(OneRowData[43]));
+            e.setOnlyHighSchool(Double.parseDouble(OneRowData[44]));
+            e.setSomeCollege(Double.parseDouble(OneRowData[45]));
+            e.setBachelorsOrMore(Double.parseDouble(OneRowData[46]));
+        }
     }
 
     public static ArrayList<ElectionResults> parse2016ElectionResults(String data) {
